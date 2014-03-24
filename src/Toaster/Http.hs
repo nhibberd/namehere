@@ -11,7 +11,6 @@ import Control.Lens
 import Database.PostgreSQL.Simple
 
 import Data.Pool
-import           Data.Text (pack)
 import Network.HTTP.Types (status200)
 
 
@@ -24,7 +23,7 @@ toastermain pool = do
     post "/message" $ do
       (m :: Message) <- jsonData
       _ <- liftIO $ withResource pool $ \c -> do
-        create c (pack $ m^.message)
+        create c (m^.message)
       status status200
 
     get "/messages" $ do

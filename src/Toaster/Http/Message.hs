@@ -9,7 +9,7 @@ import           Database.PostgreSQL.Simple
 import           Database.PostgreSQL.Simple.FromRow
 
 data Message = Message 
-    { _message :: String
+    { _message :: Text
     } deriving (Eq, Show)
 
 makeLenses ''Message
@@ -27,7 +27,7 @@ instance FromRow Message where
 
 create :: Connection -> Text -> IO ()
 create c d =
-  void . withTransaction c $ execute c "insert into messages (text) values (?)" (Only d)
+  void . withTransaction c $ execute c "insert into messages (message) values (?)" (Only d)
 
 retrieveAll :: Connection -> IO [Message]
 retrieveAll c =
