@@ -12,5 +12,5 @@ main = do
   runmigrate pool
   scotty 3000 $ do
   middleware logStdoutDev
-  middleware $ staticPolicy (Http.addSecureBase "web")
+  middleware $ staticPolicy (addBase "web")
   Http.toastermain pool
