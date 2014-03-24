@@ -7,8 +7,7 @@ import           Web.Scotty
 
 main :: IO ()
 main = do
-  env <- environment
-  pool <- mkpool env    
+  pool <- mkpool    
   runmigrate pool
   scotty 3000 $ do
   middleware logStdoutDev

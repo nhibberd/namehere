@@ -17,28 +17,23 @@ import           System.Posix.Env
 
 data Hole = Hole
 
-data Env =
-  Env {
-      database :: ByteString
-    , poolsize :: Int
-    }
+connectInfo :: ConnectInfo
+connectInfo = ConnectInfo {
+                       connectHost = "localhost"
+                     , connectPort = 5432
+                     , connectUser = "toaster"
+                     , connectPassword = "password"
+                     , connectDatabase = "toasterdb"
+                     }
 
-environment :: IO Env
-environment = do
-  mdatabase <- getEnv "TEST_DB"
-  mpoolsize <- getEnv "TEST_POOL"
-  let db = maybe (error "Environment variable TEST_DB must be set.") C8.pack mdatabase
-  let ps = maybe 10 read mpoolsize
-  return $ Env db ps
-
-mkpool :: Env -> IO (Pool Connection)
-mkpool env =
+mkpool :: IO (Pool Connection)
+mkpool =
   createPool
-    (connectPostgreSQL $ database env) -- open action
+    (connect connectInfo)       -- open action
     close                              -- close action
     1                                  -- stripes
     20                                 -- max keep alive (s)
-    (poolsize env)                     -- max connections
+    10                      -- max connections
 
 migrations :: [Migration]
 migrations = [
