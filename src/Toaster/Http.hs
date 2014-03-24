@@ -1,16 +1,24 @@
 {-# LANGUAGE OverloadedStrings, TemplateHaskell, DeriveGeneric, ScopedTypeVariables #-}
-module Toaster.Http (toastermain) where
+module Toaster.Http (module X, toastermain) where
 
-import Toaster.Http.Prelude
-import Toaster.Http.Message
+import Toaster.Http.Prelude as X
+import Toaster.Http.Message as X
+
 import Web.Scotty
 
+import Database.PostgreSQL.Simple
 
-toastermain ::ScottyM ()
-toastermain = do
-    post "/message" $ do
+import Data.Pool
+
+
+toastermain :: Pool Connection -> ScottyM ()
+toastermain pool = do
+    post "/test" $ do
       (m :: Message) <- jsonData
       json m
+
+    post "/message" $ do
+      json (Message "foo")
 
     get "/messages" $ do
       undefined
