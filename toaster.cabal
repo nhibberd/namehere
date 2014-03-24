@@ -39,6 +39,8 @@ library
                   , resource-pool                   >= 0.2.1.1
                   , database-migrate                >= 0.2
                   , unix                            >= 2.6.0.1
+                  , http-types                      >= 0.8.3
+                  
   ghc-options:
                     -Wall -fno-warn-orphans
 

@@ -6,9 +6,13 @@ import Toaster.Http.Message as X
 
 import Web.Scotty
 
+import Control.Lens
+
 import Database.PostgreSQL.Simple
 
 import Data.Pool
+import           Data.Text (pack)
+import Network.HTTP.Types (status200)
 
 
 toastermain :: Pool Connection -> ScottyM ()
@@ -18,10 +22,15 @@ toastermain pool = do
       json m
 
     post "/message" $ do
-      json (Message "foo")
+      (m :: Message) <- jsonData
+      _ <- liftIO $ withResource pool $ \c -> do
+        create c (pack $ m^.message)
+      status status200
 
     get "/messages" $ do
-      undefined
+      v <- liftIO $ withResource pool $ \c -> do
+        retrieveAll c
+      json v
 
     notFound $ do
       text "there is no such route."
