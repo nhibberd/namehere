@@ -1,5 +1,14 @@
-module Toaster.Http where
+{-# LANGUAGE OverloadedStrings, TemplateHaskell, DeriveGeneric, ScopedTypeVariables #-}
+module Toaster.Http (toastermain) where
+
+import Web.Scotty
 
 
+toastermain ::ScottyM ()
+toastermain = do
+    post "/message" $ do
+      _ <- jsonData
+      undefined
 
-data zz = Int
+    get "/messages" $ do
+      undefined
