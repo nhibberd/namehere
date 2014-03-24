@@ -31,4 +31,4 @@ create c d =
 
 retrieveAll :: Connection -> IO [Message]
 retrieveAll c =
- withTransaction c $ query_ c "SELECT id, message from messages"
+ withTransaction c $ query_ c "SELECT id, message FROM messages"
