@@ -8,7 +8,8 @@ import           Web.Scotty
 main :: IO ()
 main = do
   env <- environment
-  pool <- mkpool env  
+  pool <- mkpool env    
+  runmigrate pool
   scotty 3000 $ do
   middleware logStdoutDev
   Http.toastermain pool

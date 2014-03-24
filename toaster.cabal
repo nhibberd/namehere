@@ -37,6 +37,7 @@ library
                   , lens                            >= 3.9.0.2
                   , postgresql-simple               >= 0.1.4.3
                   , resource-pool                   >= 0.2.1.1
+                  , database-migrate                >= 0.2
                   , unix                            >= 2.6.0.1
   ghc-options:
                     -Wall -fno-warn-orphans
