@@ -1,0 +1,60 @@
+name:               toaster
+version:            0.0.1
+license-file:       LICENSE
+author:             bob
+maintainer:         bob
+synopsis:           Haskell chat room
+category:           Network
+homepage:           https://github.com/nhibberd/toaster
+bug-reports:        https://github.com/nhibberd/toaster/issues
+cabal-version:      >= 1.8
+build-type:         Simple
+description:
+  this will be e-mazing
+
+source-repository   head
+  type:             git
+  location:         https://github.com/nhibberd/toaster.git
+
+flag                small_base
+  description:      Choose the new, split-up base package.
+
+library
+  extensions:       NoImplicitPrelude
+
+  build-depends:
+                    base                            >= 3          && < 5
+                  , text                            >= 0.11
+                  , scotty                          >= 0.6.2
+                  , aeson
+                  , mtl
+                  , wai
+                  , wai-extra                       >= 2.0.3.3
+                  , http-conduit
+                  , bytestring
+                  , process
+                  , lens                            >= 3.9.0.2
+                  , postgresql-simple               >= 0.1.4.3
+                  , resource-pool                   >= 0.2.1.1
+  ghc-options:
+                    -Wall -fno-warn-orphans
+
+  hs-source-dirs:
+                    src
+
+  exposed-modules:
+                    Toast.Http
+
+executable         toaster
+    ghc-options:   -Wall -threaded -O2
+    main-is:           ../src/Toaster/main.hs
+    hs-source-dirs:    dist
+    build-depends:     base
+                     , wai-extra                       >= 2.0.3.3
+                     , scotty                          >= 0.6.2
+
+test-suite spec
+  type:           exitcode-stdio-1.0
+  main-is:        test.hs
+  hs-source-dirs: test
+  build-depends:  deckard-http, base, hspec, QuickCheck, wai, wai-test, scotty, bytestring, network, http-types, aeson
