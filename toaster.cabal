@@ -33,6 +33,7 @@ library
                   , http-conduit
                   , bytestring
                   , process
+                  , transformers                    >= 0.3.0.0
                   , lens                            >= 3.9.0.2
                   , postgresql-simple               >= 0.1.4.3
                   , resource-pool                   >= 0.2.1.1
@@ -43,16 +44,17 @@ library
                     src
 
   exposed-modules:
-                    Toast.Http
-                    Toast.Http.Core
-                    Toast.Http.Prelude
-                    Toast.Http.Message
+                    Toaster.Http
+                    Toaster.Http.Core
+                    Toaster.Http.Prelude
+                    Toaster.Http.Message
 
 executable         toaster
     ghc-options:   -Wall -threaded -O2
     main-is:           ../src/Toaster/main.hs
     hs-source-dirs:    dist
     build-depends:     base
+                     , toaster                         >= 0.0.0.1
                      , wai-extra                       >= 2.0.3.3
                      , scotty                          >= 0.6.2
 

@@ -10,6 +10,7 @@ import Toaster.Http.Prelude
 import Toaster.Http.Core
 import Data.Aeson    
 import Data.Bool
+import Control.Lens           hiding ((.=))
 
 data Message = Message 
     { _message :: String
@@ -18,7 +19,7 @@ data Message = Message
 makeLenses ''Message
 
 instance FromJSON Message where
-    parseJSON (Object v) = Command <$>
+    parseJSON (Object v) = Message <$>
                            v .: "message"
     parseJSON _          = mzero
 instance ToJSON Message where

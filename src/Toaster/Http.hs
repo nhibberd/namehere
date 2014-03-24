@@ -10,7 +10,10 @@ toastermain ::ScottyM ()
 toastermain = do
     post "/message" $ do
       (m :: Message) <- jsonData
-      undefined
+      json m
 
     get "/messages" $ do
       undefined
+
+    notFound $ do
+      text "there is no such route."
