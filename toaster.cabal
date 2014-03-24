@@ -44,6 +44,9 @@ library
 
   exposed-modules:
                     Toast.Http
+                    Toast.Http.Core
+                    Toast.Http.Prelude
+                    Toast.Http.Message
 
 executable         toaster
     ghc-options:   -Wall -threaded -O2
