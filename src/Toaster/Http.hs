@@ -1,5 +1,5 @@
 {-# LANGUAGE OverloadedStrings, TemplateHaskell, DeriveGeneric, ScopedTypeVariables #-}
-module Toaster.Http (module X, toastermain) where
+module Toaster.Http (module X, toastermain, addSecureBase) where
 
 import Toaster.Http.Prelude as X
 import Toaster.Http.Message as X
@@ -12,7 +12,8 @@ import Database.PostgreSQL.Simple
 
 import Data.Pool
 import Network.HTTP.Types (status200)
-
+import System.FilePath ((</>), isAbsolute)
+import Network.Wai.Middleware.Static
 
 toastermain :: Pool Connection -> ScottyM ()
 toastermain pool = do
@@ -31,5 +32,14 @@ toastermain pool = do
         retrieveAll c
       json v
 
+    get "" $ do
+      redirect "/index.html"
+
+    get "/" $ do
+      redirect "/index.html"
+
     notFound $ do
       text "there is no such route."
+
+addSecureBase :: String -> Policy
+addSecureBase b = policy (\path -> if isAbsolute path then Nothing else Just (b </> path))

@@ -7,6 +7,7 @@ import           Data.Aeson
 import           Control.Lens           hiding ((.=))
 import           Database.PostgreSQL.Simple
 import           Database.PostgreSQL.Simple.FromRow
+import           Data.Text (Text)
 
 data Message = Message 
     { _message :: Text

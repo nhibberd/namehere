@@ -8,5 +8,4 @@ import Control.Monad as X (mzero, void, forever, when, unless, liftM, return, (>
 import Control.Monad.IO.Class as X (MonadIO, liftIO)
 import Control.Monad.Trans as X (MonadTrans, lift)
 import Data.Traversable as X (mapM)
-import Data.Text as X (Text)
 import Data.Maybe as X (listToMaybe)
