@@ -1,4 +1,4 @@
 namehere
 ========
 
-Haskell chat bot
+Haskell chat room 
