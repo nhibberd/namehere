@@ -1,0 +1,3 @@
+:set -isrc -idist/build/autogen
+:set -XNoImplicitPrelude -Wall
+:set prompt "toaster >> "
