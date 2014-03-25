@@ -9,4 +9,4 @@ psql
 
 create user toaster with password 'password';
 create database toasterdb;
-grant all privilegest on database toasterdb to toaster;
+grant all privileges on database toasterdb to toaster;
