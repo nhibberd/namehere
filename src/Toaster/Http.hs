@@ -13,10 +13,13 @@ import Database.PostgreSQL.Simple
 import Data.Pool
 import Network.HTTP.Types (status200)
 
+import Data.ByteString.Lazy.Internal
+import Debug.Trace
+
 toastermain :: Pool Connection -> ScottyM ()
 toastermain pool = do
     post "/test" $ do
-      (m :: Message) <- jsonData
+      (m :: String) <- jsonData
       json m
 
     post "/message" $ do
@@ -28,6 +31,15 @@ toastermain pool = do
     get "/messages" $ do
       v <- liftIO $ withResource pool $ \c -> do
         retrieveAll c
+      json v
+
+-- god this is terrible... plz fix
+    get "/test/messages" $ do
+      (m :: Maybe Message) <- (jsonData) `rescue` (\_ -> return undefined)
+      v <- liftIO $ withResource pool $ \c -> do
+        case (trace (show m) m) of
+          Just (Message i _) -> retrieve i c  
+          _ -> retrieveAll c      
       json v
 
     get "" $ do

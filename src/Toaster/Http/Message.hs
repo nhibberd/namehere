@@ -10,26 +10,41 @@ import           Database.PostgreSQL.Simple.FromRow
 import           Data.Text (Text)
 
 data Message = Message 
-    { _message :: Text
+    { _idd :: Int
+    , _message :: Text
     } deriving (Eq, Show)
 
 makeLenses ''Message
 
 instance FromJSON Message where
     parseJSON (Object v) = Message <$>
+                           v .: "id" <*>
                            v .: "message"
     parseJSON _          = mzero
 instance ToJSON Message where
-    toJSON (Message m ) = object ["message" .= m]
+    toJSON (Message i m ) = object ["id" .= i, "message" .= m]
 
 
 instance FromRow Message where
-  fromRow = Message <$> field
+  fromRow = Message <$> field <*> field
+
+emptyMessage :: Message
+emptyMessage =
+    Message (-1) ""
 
 create :: Connection -> Text -> IO ()
 create c d =
   void . withTransaction c $ execute c "insert into messages (message) values (?)" (Only d)
 
+
 retrieveAll :: Connection -> IO [Message]
 retrieveAll c =
- withTransaction c $ query_ c "SELECT message FROM messages"
+  withTransaction c $ query_ c "SELECT id, message FROM messages LIMIT 10"
+
+retrieveInit :: Connection -> IO [Message]
+retrieveInit c =
+  withTransaction c $ query_ c "SELECT id, message FROM messages ORDER BY id DESC LIMIT 10"
+
+retrieve :: Int -> Connection -> IO [Message]
+retrieve i c =
+  withTransaction c $ query c "SELECT id, message FROM messages where id<(?) ORDER BY id DESC LIMIT 10" (Only i)

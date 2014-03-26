@@ -10,7 +10,7 @@ main :: IO ()
 main = do
   pool <- mkpool    
   runmigrate pool
-  scotty 3000 $ do
+  scotty 3030 $ do
   middleware logStdoutDev
   middleware $ staticPolicy (addBase "web")
   Http.toastermain pool
