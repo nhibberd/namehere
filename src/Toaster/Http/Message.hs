@@ -36,11 +36,6 @@ create :: Connection -> Text -> IO ()
 create c d =
   void . withTransaction c $ execute c "insert into messages (message) values (?)" (Only d)
 
-
-retrieveAll :: Connection -> IO [Message]
-retrieveAll c =
-  withTransaction c $ query_ c "SELECT id, message FROM messages LIMIT 10"
-
 retrieveInit :: Connection -> IO [Message]
 retrieveInit c =
   withTransaction c $ query_ c "SELECT id, message FROM messages ORDER BY id DESC LIMIT 10"

@@ -1,4 +1,4 @@
-{-# LANGUAGE OverloadedStrings, TemplateHaskell, DeriveGeneric, ScopedTypeVariables #-}
+{-# LANGUAGE OverloadedStrings, TemplateHaskell, DeriveGeneric, ScopedTypeVariables, FlexibleInstances #-}
 module Toaster.Http (module X, toastermain) where
 
 import Toaster.Http.Prelude as X
@@ -11,17 +11,11 @@ import Control.Lens
 import Database.PostgreSQL.Simple
 
 import Data.Pool
-import Network.HTTP.Types (status200)
 
-import Data.ByteString.Lazy.Internal
-import Debug.Trace
+import Network.HTTP.Types (status200)
 
 toastermain :: Pool Connection -> ScottyM ()
 toastermain pool = do
-    post "/test" $ do
-      (m :: String) <- jsonData
-      json m
-
     post "/message" $ do
       (m :: Message) <- jsonData
       _ <- liftIO $ withResource pool $ \c -> do
@@ -29,18 +23,10 @@ toastermain pool = do
       status status200
 
     get "/messages" $ do
-      v <- liftIO $ withResource pool $ \c -> do
-        retrieveAll c
-      json v
-
--- god this is terrible... plz fix
-    get "/test/messages" $ do
-      (m :: Maybe Message) <- (jsonData) `rescue` (\_ -> return undefined)
-      v <- liftIO $ withResource pool $ \c -> do
-        case (trace (show m) m) of
-          Just (Message i _) -> retrieve i c  
-          _ -> retrieveAll c      
-      json v
+      (i :: [Message]) <- (param "id" >>=
+                           (\(ii :: Int) ->
+                             liftIO $ handler pool (retrieve ii))) `rescue` (\_ -> liftIO $ handler pool retrieveInit)
+      json i
 
     get "" $ do
       redirect "/index.html"
@@ -50,3 +36,8 @@ toastermain pool = do
 
     notFound $ do
       text "there is no such route."
+
+handler :: Pool Connection -> (Connection -> IO [Message]) -> IO [Message]
+handler pool f =
+  withResource pool $ \c -> do
+    f c
