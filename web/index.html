@@ -1,1 +1,51 @@
-hi
+<!DOCTYPE html>
+<html ng-app="toaster">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+<meta name="author" content="">
+<title>Toaster</title>
+<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
+</head>
+<body>
+
+	<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse"
+					data-target=".navbar-collapse">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#">Toaster</a>
+			</div>
+		</div>
+	</div>
+
+	<div class="container" style="padding-top: 100px" ng-controller="ChatController">
+		<form class="form-horizontal" role="form" ng-submit="submit(msg)">
+		<div class="form-group">
+			<label for="messageInput" class="col-sm-2 control-label">Message</label>
+			<div class="col-sm-10">
+				<input type="text" class="form-control" id="messageInput" ng-model="msg.message">
+			</div>
+		</div>
+		</form>
+		<div class="well" ng-repeat="message in messages">
+			<p>{{message.message}}</p>
+		</div>
+	</div>
+
+
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+	<script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.14/angular.min.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.14/angular-route.js"></script>
+	<script src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.10.0.js"></script>
+	<script src="js/controller.js"></script>
+</body>
+</html>
