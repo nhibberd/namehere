@@ -15,8 +15,12 @@ toaster.controller('ChatController', function($scope, $http) {
 		});
 	};
 
-  function poll(msg) {
-    $http.get('messages/' + msg.id).success(function(data) {
-    });
+        function paging(msg) {
+          $http.get('messages/' + msg.id).success(function(data) {
+        });
+
+	function poll (msg) {
+          $http.get('blah?id=' + msg.id).success(function(data) {
+	});
   };
 });
