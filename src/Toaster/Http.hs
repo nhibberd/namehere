@@ -22,8 +22,7 @@ toastermain pool = do
       status status200
 
     get "/messages" $ do
-      (m :: [Message]) <- (param "id" >>=
-                           \i -> liftIO . handler pool $ retrieve i) `rescue` \_ -> liftIO $ handler pool retrieveInit
+      (m :: [Message]) <- (param "id" >>= \i -> liftIO . handler pool $ retrieve i) `rescue` \_ -> liftIO $ handler pool retrieveInit
       json m
 
     get "" $ do
