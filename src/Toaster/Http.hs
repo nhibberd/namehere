@@ -18,8 +18,7 @@ toastermain :: Pool Connection -> ScottyM ()
 toastermain pool = do
     post "/message" $ do
       (m :: Message) <- jsonData
-      _ <- liftIO $ withResource pool $ \c -> do
-        create c (m^.message)
+      _ <- liftIO $ withResource pool $ \c -> do create c (m^.message)
       status status200
 
     get "/messages" $ do
