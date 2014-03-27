@@ -11,12 +11,12 @@ toaster.controller('ChatController', function($scope, $http) {
 	$scope.submit = function(msg) {
 		$scope.messages.unshift({ message: msg.message })
 		$http.post('message', msg).success(function(data) {
-			
+
 		});
 	};
 
   function poll(msg) {
-    $http.get('messages?id=' + msg.id).success(function(data) {      
+    $http.get('messages/' + msg.id).success(function(data) {
     });
   };
 });
