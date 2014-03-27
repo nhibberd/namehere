@@ -39,3 +39,7 @@ retrieveInit c =
 retrieve :: Int -> Connection -> IO [Message]
 retrieve i c =
   withTransaction c $ query c "SELECT id, message FROM messages where id<(?) ORDER BY id DESC LIMIT 10" (Only i)
+
+retrieveSince :: Int -> Connection -> IO [Message]
+retrieveSince i c =
+  withTransaction c $ query c "SELECT id, message FROM messages where id>(?) ORDER BY id DESC" (Only i)

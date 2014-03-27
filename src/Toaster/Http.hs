@@ -30,6 +30,11 @@ toastermain pool = do
       (m :: [Message]) <- liftIO . handler pool $ retrieve i
       json m
 
+    get "/newmessages" $ do
+      (i :: Int) <- param "id"
+      z <- liftIO $ handler pool (retrieveSince i)
+      json z
+
     get "" $ do
       redirect "/index.html"
 
