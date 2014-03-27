@@ -23,10 +23,9 @@ toastermain pool = do
       status status200
 
     get "/messages" $ do
-      (i :: [Message]) <- (param "id" >>=
-                           (\(ii :: Int) ->
-                             liftIO $ handler pool (retrieve ii))) `rescue` (\_ -> liftIO $ handler pool retrieveInit)
-      json i
+      (m :: [Message]) <- (param "id" >>=
+                           \i -> liftIO . handler pool $ retrieve i) `rescue` \_ -> liftIO $ handler pool retrieveInit
+      json m
 
     get "" $ do
       redirect "/index.html"
