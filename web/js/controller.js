@@ -14,7 +14,7 @@ toaster.controller('ChatController', function($scope, $http, $timeout) {
                     $scope.messages.unshift({ message: entry });
                     id = Math.max(id,entry.id);
                 });
-                //poll();
+                poll();
             });
         }, 1000);
     };     
