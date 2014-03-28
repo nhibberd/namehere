@@ -31,7 +31,7 @@ toaster.controller('ChatController', function($scope, $http, $timeout) {
 
 	$scope.submit = function(msg) {
 		$http.post('message', msg).success(function(data) {
-            // do nothing
+            document.getElementById('messageInput').value = "";
 		});
 	};
 
