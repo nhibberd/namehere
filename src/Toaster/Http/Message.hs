@@ -34,11 +34,11 @@ create c d =
 
 retrieveInit :: Connection -> IO [Message]
 retrieveInit c =
-  withTransaction c $ query_ c "SELECT id, message FROM messages ORDER BY id DESC LIMIT 10"
+  withTransaction c $ query_ c "SELECT id, message FROM messages ORDER BY id DESC LIMIT 15"
 
 retrieve :: Int -> Connection -> IO [Message]
 retrieve i c =
-  withTransaction c $ query c "SELECT id, message FROM messages where id<(?) ORDER BY id DESC LIMIT 10" (Only i)
+  withTransaction c $ query c "SELECT id, message FROM messages where id<(?) ORDER BY id DESC LIMIT 15" (Only i)
 
 retrieveSince :: Int -> Connection -> IO [Message]
 retrieveSince i c =
