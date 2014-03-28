@@ -35,6 +35,10 @@ toastermain pool = do
       z <- liftIO $ handler pool (retrieveSince i)
       json z
 
+    get "/history" $ do
+      z <- liftIO $ handler pool (retrieveSince 0)
+      json z
+
     get "" $ do
       redirect "/index.html"
 
