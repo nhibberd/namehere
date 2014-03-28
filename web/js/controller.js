@@ -1,6 +1,6 @@
 'use strict';
 
-var toaster = angular.module('toaster', [ 'ui.bootstrap' ]);
+var toaster = angular.module('toaster', [ 'ui.bootstrap', 'infinite-scroll' ]);
 
 toaster.controller('ChatController', function($scope, $http, $timeout) {
 
@@ -11,10 +11,10 @@ toaster.controller('ChatController', function($scope, $http, $timeout) {
         $timeout(function() {
             $http.get('newmessages?id=' + id).success(function(data) {
                 data.forEach(function(entry) {
-                    $scope.messages.unshift({ message: entry })
+                    $scope.messages.unshift({ message: entry });
                     id = Math.max(id,entry.id);
                 });
-                poll();
+                //poll();
             });
         }, 1000);
     };     
@@ -35,14 +35,17 @@ toaster.controller('ChatController', function($scope, $http, $timeout) {
 		});
 	};
 
-    function paging(msg) {
-        $http.get('messages/' + msg.id).success(function(data) {
-            // do something        
+    $scope.paging = function() {
+        var le = $scope.messages.length - 1;
+        $http.get('messages/' + (id - le)).success(function(data) {     
+            data.forEach(function(entry) {
+                $scope.messages.push({ message: entry });
+                id = Math.max(id,entry.id);
+            });
         }); 
     };
+
 });
-
-
 
 toaster.controller('HistoryController', function($scope, $http, $timeout) {
     $scope.messages = [];
