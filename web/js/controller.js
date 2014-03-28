@@ -41,3 +41,14 @@ toaster.controller('ChatController', function($scope, $http, $timeout) {
         }); 
     };
 });
+
+
+
+toaster.controller('HistoryController', function($scope, $http, $timeout) {
+    $scope.messages = [];
+    $http.get('history').success(function(data) {
+        data.forEach(function(entry) {
+            $scope.messages.push({ message: entry })
+        });
+    });
+});
